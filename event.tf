@@ -26,6 +26,24 @@ resource "aws_lambda_function" "start_step_function_lambda" {
   filename      = "Outputs/lambda.zip"               # Change to your Lambda function code package
 }
 
+data "archive_file" "lambda1" {
+  type        = "zip"
+  source_file = "lambdacode.py"
+  output_path = "Output/lambda1.zip"
+}
+data "aws_iam_role" "lambda_exec1" {
+  name = "LambdaS3Role"  # Assuming LambdaS3Role is the name of your IAM role
+}
+# Lambda Function
+resource "aws_lambda_function" "submitjob" {
+  function_name = "submitjob"
+  handler       = "lambdacode.lambda_handler"
+  runtime       = "python3.8"
+  role          = data.aws_iam_role.lambda_exec1.arn # Using IAM role fetched from the data source
+  filename      = "Output/lambda1.zip"               # Change to your Lambda function code package
+}
+
+
 
 # Step Function
 resource "aws_sfn_state_machine" "emr_step_function" {
