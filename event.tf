@@ -136,7 +136,7 @@ EOF
 resource "aws_cloudwatch_event_rule" "scheduled_event_rule" {
   name        = "scheduled_event_rule"
   description = "Trigger Step Function at 4:52 PM IST today"
-  schedule_expression = "cron(45 11 * * ? *)"  # Trigger at 11:32 AM IST today
+  schedule_expression = "cron(20 6 * * ? *)"  # Trigger at 11:32 AM IST today
 }
 
 resource "aws_cloudwatch_event_target" "lambda_target" {
